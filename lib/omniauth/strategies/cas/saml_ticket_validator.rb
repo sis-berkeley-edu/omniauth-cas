@@ -40,6 +40,7 @@ module OmniAuth
             doc.remove_namespaces!
             if success?(doc)
               attrs = extract_attributes(doc)
+<<<<<<< HEAD
               attrs["nameIdentifier"] = extract_name_identifier(doc)
               { "user" => attrs["uid"] }.merge(attrs)
             else
@@ -48,6 +49,11 @@ module OmniAuth
             end
           rescue Nokogiri::XML::XPath::SyntaxError
             OmniAuth.logger.warn "Could not parse SAML response, will return nil user_info:\n#{@response_body}"
+=======
+              { "user" => attrs["uid"] }.merge(attrs)
+            end
+          rescue Nokogiri::XML::XPath::SyntaxError
+>>>>>>> f87f036 (create SamlTicketValidator for validating tickets against samlValidate and asserting attributes)
             nil
           end
         end
@@ -65,10 +71,13 @@ module OmniAuth
           end
         end
 
+<<<<<<< HEAD
         def extract_name_identifier(doc)
           doc.css("AuthenticationStatement Subject NameIdentifier").text
         end
 
+=======
+>>>>>>> f87f036 (create SamlTicketValidator for validating tickets against samlValidate and asserting attributes)
         def saml_payload
           <<-SAML
 <SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/">

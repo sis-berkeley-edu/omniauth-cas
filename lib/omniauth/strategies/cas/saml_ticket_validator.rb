@@ -41,8 +41,12 @@ module OmniAuth
             if success?(doc)
               attrs = extract_attributes(doc)
               { "user" => attrs["uid"] }.merge(attrs)
+            else
+              OmniAuth.logger.warn "Received unsuccessful SAML response, will return nil user_info:\n#{@response_body}"
+              nil
             end
           rescue Nokogiri::XML::XPath::SyntaxError
+            OmniAuth.logger.warn "Could not parse SAML response, will return nil user_info:\n#{@response_body}"
             nil
           end
         end

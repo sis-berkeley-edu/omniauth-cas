@@ -206,7 +206,7 @@ module OmniAuth
       def fetch_raw_info(ticket)
         ticket_user_info = validate_service_ticket(ticket).user_info
         custom_user_info = options.fetch_raw_info.call(self, options, ticket, ticket_user_info)
-        self.raw_info = ticket_user_info.merge(custom_user_info)
+        self.raw_info = (ticket_user_info || {}).merge(custom_user_info)
       end
 
       # Deletes Hash pairs with `nil` values.

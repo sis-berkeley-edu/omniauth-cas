@@ -40,6 +40,7 @@ module OmniAuth
             doc.remove_namespaces!
             if success?(doc)
               attrs = extract_attributes(doc)
+              attrs["nameIdentifier"] = extract_name_identifier(doc)
               { "user" => attrs["uid"] }.merge(attrs)
             else
               OmniAuth.logger.warn "Received unsuccessful SAML response, will return nil user_info:\n#{@response_body}"
@@ -62,6 +63,10 @@ module OmniAuth
             attrs[node.attr("AttributeName")] = node.css("AttributeValue").text
             attrs
           end
+        end
+
+        def extract_name_identifier(doc)
+          doc.css("AuthenticationStatement Subject NameIdentifier").text
         end
 
         def saml_payload

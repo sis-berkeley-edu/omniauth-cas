@@ -19,10 +19,10 @@ Gem::Specification.new do |gem|
   gem.add_dependency 'nokogiri',                '~> 1.5'
   gem.add_dependency 'addressable',             '~> 2.3'
 
-  gem.add_development_dependency 'rake',        '~> 13.0.6'
-  gem.add_development_dependency 'webmock',     '~> 3.18.1'
-  gem.add_development_dependency 'rspec',       '~> 3.11.0'
-  gem.add_development_dependency 'rack-test',   '~> 0.8.3'
+  gem.add_development_dependency 'rake',        '~> 10.0'
+  gem.add_development_dependency 'webmock',     '~> 2.3.1'
+  gem.add_development_dependency 'rspec',       '~> 3.1.0'
+  gem.add_development_dependency 'rack-test',   '~> 0.6'
 
   gem.add_development_dependency 'awesome_print'
 end

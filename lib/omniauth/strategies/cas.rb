@@ -24,7 +24,8 @@ module OmniAuth
       option :host, nil
       option :port, nil
       option :path, nil
-      option :ssl, true
+      option :ssl,  true
+      option :merge_multivalued_attributes, false
       option :service_validate_url, '/serviceValidate'
       option :login_url, '/login'
       option :logout_url, '/logout'

@@ -1,0 +1,78 @@
+<Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/">
+	<Body>
+		<Response InResponseTo="clc.example.com"
+      IssueInstant="2023-11-17T21:55:49.424Z"
+      MajorVersion="1"
+      MinorVersion="1"
+      ResponseID="_fcf43fe7a22512b96095b4a368b26a5f"
+      xmlns:saml1p="urn:oasis:names:tc:SAML:1.0:protocol"
+    >
+			<Status>
+				<StatusCode Value="saml1p:Success" />
+			</Status>
+			<Assertion
+        AssertionID="_c2373528d5183c5a981561dc3baf145b"
+        IssueInstant="2023-11-17T21:55:49.424Z"
+        Issuer="localhost"
+        MajorVersion="1"
+        MinorVersion="1"
+        xmlns:saml1="urn:oasis:names:tc:SAML:1.0:assertion"
+      >
+				<Conditions NotBefore="2023-11-17T21:55:49.424Z" NotOnOrAfter="2023-11-17T21:56:49.424Z">
+					<AudienceRestrictionCondition>
+						<Audience>https://clc.example.com/auth/cas/callback?url=https%3A%2F%2Fclc.example.com%2F</Audience>
+					</AudienceRestrictionCondition>
+				</Conditions>
+				<AuthenticationStatement
+          AuthenticationInstant="2023-11-17T21:56:19.066Z"
+          AuthenticationMethod="urn:oasis:names:tc:SAML:1.0:am:password"
+        >
+					<Subject>
+						<NameIdentifier>1044957</NameIdentifier>
+						<SubjectConfirmation>
+							<ConfirmationMethod>urn:oasis:names:tc:SAML:1.0:cm:artifact</ConfirmationMethod>
+						</SubjectConfirmation>
+					</Subject>
+				</AuthenticationStatement>
+				<AttributeStatement>
+					<Subject>
+						<NameIdentifier>1044957</NameIdentifier>
+						<SubjectConfirmation>
+							<ConfirmationMethod>urn:oasis:names:tc:SAML:1.0:cm:artifact</ConfirmationMethod>
+						</SubjectConfirmation>
+					</Subject>
+					<Attribute AttributeName="credentialType" AttributeNamespace="http://www.ja-sig.org/products/cas/">
+						<AttributeValue>UsernamePasswordCredential</AttributeValue>
+					</Attribute>
+					<Attribute AttributeName="clientIpAddress" AttributeNamespace="http://www.ja-sig.org/products/cas/">
+						<AttributeValue>192.168.0.5</AttributeValue>
+					</Attribute>
+					<Attribute AttributeName="samlAuthenticationStatementAuthMethod" AttributeNamespace="http://www.ja-sig.org/products/cas/">
+						<AttributeValue>urn:oasis:names:tc:SAML:1.0:am:password</AttributeValue>
+					</Attribute>
+					<Attribute AttributeName="isFromNewLogin" AttributeNamespace="http://www.ja-sig.org/products/cas/">
+						<AttributeValue>true</AttributeValue>
+					</Attribute>
+					<Attribute AttributeName="authenticationDate" AttributeNamespace="http://www.ja-sig.org/products/cas/">
+						<AttributeValue>2023-11-17T21:56:19.066445Z</AttributeValue>
+					</Attribute>
+					<Attribute AttributeName="authenticationMethod" AttributeNamespace="http://www.ja-sig.org/products/cas/">
+						<AttributeValue>Static Credentials</AttributeValue>
+					</Attribute>
+					<Attribute AttributeName="successfulAuthenticationHandlers" AttributeNamespace="http://www.ja-sig.org/products/cas/">
+						<AttributeValue>Static Credentials</AttributeValue>
+					</Attribute>
+					<Attribute AttributeName="serverIpAddress" AttributeNamespace="http://www.ja-sig.org/products/cas/">
+						<AttributeValue>192.168.0.45</AttributeValue>
+					</Attribute>
+					<Attribute AttributeName="userAgent" AttributeNamespace="http://www.ja-sig.org/products/cas/">
+						<AttributeValue>Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36</AttributeValue>
+					</Attribute>
+					<Attribute AttributeName="longTermAuthenticationRequestTokenUsed" AttributeNamespace="http://www.ja-sig.org/products/cas/">
+						<AttributeValue>false</AttributeValue>
+					</Attribute>
+				</AttributeStatement>
+			</Assertion>
+		</Response>
+	</Body>
+</Envelope>

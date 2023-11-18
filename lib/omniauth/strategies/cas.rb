@@ -24,7 +24,8 @@ module OmniAuth
       option :host, nil
       option :port, nil
       option :path, nil
-      option :ssl, true
+      option :ssl,  true
+      option :merge_multivalued_attributes, false
       option :service_validate_url, '/serviceValidate'
       option :login_url, '/login'
       option :logout_url, '/logout'
@@ -65,9 +66,14 @@ module OmniAuth
       end
 
       extra do
-        prune!(
-          raw_info.delete_if { |k, v| AuthHashSchemaKeys.include?(k) }
-        )
+        hash = {}
+
+        unless skip_info?
+          hash = raw_info.dup
+          hash.delete_if { |k, _v| AuthHashSchemaKeys.include?(k) }
+        end
+
+        prune! hash
       end
 
       uid do
@@ -204,9 +210,12 @@ module OmniAuth
       end
 
       def fetch_raw_info(ticket)
-        ticket_user_info = validate_service_ticket(ticket).user_info
-        custom_user_info = options.fetch_raw_info.call(self, options, ticket, ticket_user_info)
-        self.raw_info = (ticket_user_info || {}).merge(custom_user_info)
+        validator = validate_service_ticket(ticket)
+        ticket_user_info = validator.user_info
+        ticket_success_body = validator.success_body
+        custom_user_info = options.fetch_raw_info.call(self,
+          options, ticket, ticket_user_info, ticket_success_body)
+        self.raw_info = ticket_user_info.merge(custom_user_info)
       end
 
       # Deletes Hash pairs with `nil` values.

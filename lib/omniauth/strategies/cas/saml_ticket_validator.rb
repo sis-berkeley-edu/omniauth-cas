@@ -8,6 +8,8 @@ module OmniAuth
       class SamlTicketValidator
         VALIDATION_REQUEST_HEADERS = { 'Accept' => '*/*' }
 
+        attr_reader :success_body
+
         # Build a validator from a +configuration+, a
         # +return_to+ URL, and a +ticket+.
         #
@@ -23,6 +25,7 @@ module OmniAuth
         # Executes a network request to process the CAS Service Response
         def call
           @response_body = get_saml_response_body
+          @success_body = find_authentication_success(@response_body)
           self
         end
 
@@ -54,6 +57,23 @@ module OmniAuth
 
         private
 
+        # finds an `<cas:authenticationSuccess>` node in
+        # a `<cas:serviceResponse>` body if present; returns nil
+        # if the passed body is nil or if there is no such node.
+        def find_authentication_success(body)
+          return nil if body.nil? || body == ''
+          begin
+            doc = Nokogiri::XML(body)
+            begin
+              doc.xpath('/Envelope/Body/Response/Status/StatusCode')
+            rescue Nokogiri::XML::XPath::SyntaxError
+              nil
+            end
+          rescue Nokogiri::XML::XPath::SyntaxError
+            nil
+          end
+        end
+
         def success?(doc)
           doc.css("StatusCode").attr("Value").text == "saml1p:Success"
         end
@@ -71,17 +91,17 @@ module OmniAuth
 
         def saml_payload
           <<-SAML
-<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/">
-  <SOAP-ENV:Header/>
-  <SOAP-ENV:Body>
-    <samlp:Request xmlns:samlp="urn:oasis:names:tc:SAML:1.0:protocol" MajorVersion="1"
-      MinorVersion="1" RequestID="#{SecureRandom.uuid}" IssueInstant="#{Time.now.to_s}">
-      <samlp:AssertionArtifact>
-        #{@ticket}
-      </samlp:AssertionArtifact>
-    </samlp:Request>
-  </SOAP-ENV:Body>
-</SOAP-ENV:Envelope>
+            <SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/">
+              <SOAP-ENV:Header/>
+              <SOAP-ENV:Body>
+                <samlp:Request xmlns:samlp="urn:oasis:names:tc:SAML:1.0:protocol" MajorVersion="1"
+                  MinorVersion="1" RequestID="#{SecureRandom.uuid}" IssueInstant="#{Time.now.to_s}">
+                  <samlp:AssertionArtifact>
+                    #{@ticket}
+                  </samlp:AssertionArtifact>
+                </samlp:Request>
+              </SOAP-ENV:Body>
+            </SOAP-ENV:Envelope>
           SAML
         end
 

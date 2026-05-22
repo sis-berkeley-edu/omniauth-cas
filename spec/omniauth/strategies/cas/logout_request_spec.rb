@@ -38,6 +38,21 @@ describe OmniAuth::Strategies::CAS::LogoutRequest do
       expect(@rack_input).to eq 'name_id=%40NOT_USED%40&session_index=ST-123456-123abc456def'
     end
 
+    context 'with different namespace prefixes' do
+      let(:logoutRequest) do
+        %Q[
+          <p:LogoutRequest xmlns:p="urn:oasis:names:tc:SAML:2.0:protocol" xmlns:a="urn:oasis:names:tc:SAML:2.0:assertion" ID="123abc-1234-ab12-cd34-1234abcd" Version="2.0" IssueInstant="#{Time.now.to_s}">
+            <a:NameID>user@example.com</a:NameID>
+            <p:SessionIndex>ST-987654-abcdef123456</p:SessionIndex>
+          </p:LogoutRequest>
+        ]
+      end
+
+      it 'still extracts NameID and SessionIndex correctly using local-name()' do
+        expect(@rack_input).to eq 'name_id=user%40example.com&session_index=ST-987654-abcdef123456'
+      end
+    end
+
     context 'that raise when parsed' do
       let(:env) { { 'rack.input' => nil } }
 

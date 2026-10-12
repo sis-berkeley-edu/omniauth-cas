@@ -17,7 +17,7 @@ Gem::Specification.new do |gem|
 
   gem.add_dependency 'omniauth',                '>= 1.9', '< 3'
   gem.add_dependency 'nokogiri',                '>= 1.15.5'
-  gem.add_dependency 'addressable',             '~> 2.8.5'
+  gem.add_dependency 'addressable',             '~> 2.9.0'
 
   gem.add_development_dependency 'rake',        '~> 13.0.6'
   gem.add_development_dependency 'webmock',     '~> 3.19.1'
